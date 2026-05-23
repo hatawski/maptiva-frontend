@@ -1,0 +1,82 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;        /* ← add */
+  margin: 0;          /* ← add */
+  padding: 0;         /* ← add */
+}
+
+h2, h3 {
+  color: #2f3640;
+}
+
+button {
+  background-color: #273c75;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: #192a56;
+}
+
+input {
+  padding: 8px;
+  margin: 5px 0;
+  width: 100%;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.center {
+  text-align: center;
+}
+
+.qr-section img {
+  width: 200px;
+  height: 200px;
+  margin: 10px 0;
+}
+
+.card {
+  background: #f1f2f6;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+}
+
+.available { background-color: #44bd32; }
+.occupied { background-color: #e84118; }
+.pending { background-color: #00a8ff; }
+.accepted { background-color: #4cd137; }
+.declined { background-color: #e84118; }

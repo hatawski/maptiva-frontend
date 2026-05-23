@@ -1,0 +1,78 @@
+.about-container {
+  min-height: 100vh;
+  background-color: #00131A;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-y: auto;
+}
+
+/* 🔙 Back button */
+.back-button {
+  padding: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+}
+
+/* 📜 Content */
+.about-content {
+  padding: 0 25px 50px 25px;
+}
+
+/* Logo + Title */
+.logo {
+  font-size: 50px;
+  font-weight: 900;
+  color: #00B7A8;
+  margin: 0;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #00B7A8;
+  margin: 0;
+}
+
+.tagline {
+  color: #9acccd;
+  margin-bottom: 20px;
+}
+
+/* Section */
+.section-title {
+  color: #00B7A8;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Paragraph */
+.paragraph {
+  color: #ccc;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+/* Mission/Vision */
+.subheading {
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: #0A2C44;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+/* Footer */
+.footer-title {
+  color: #999;
+  margin-top: 30px;
+}
+
+.footer {
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
