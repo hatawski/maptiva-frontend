@@ -12,7 +12,7 @@ export default function StudentSignup() {
   const [error, setError] = useState("");
 
   const API_BASE =
-    "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+    "https://maptiva-backend.onrender.com";
 
   const handleSignup = async (e) => {
     e.preventDefault();

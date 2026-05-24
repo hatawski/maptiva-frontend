@@ -11,7 +11,7 @@ export default function AdminLogin({ onAdminLogin }) {  // ← add prop
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+  const API_BASE = "https://maptiva-backend.onrender.com";
 
   const handleLogin = async (e) => {
     e.preventDefault();
