@@ -143,7 +143,7 @@ body {
 
 /* ===== LOGO ===== */
 .logo {
-  width: 120px;
+  width: 150px;
   margin-bottom: 20px;
 }
 
@@ -162,7 +162,7 @@ body {
 /* ===== MAIN CARD ROW ===== */
 .login-container {
   display: flex;
-  gap: 30px;
+  gap: 50px;
   align-items: center;
   justify-content: center;
   width: 100%;

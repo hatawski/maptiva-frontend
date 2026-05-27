@@ -172,7 +172,7 @@ export default function StudentLogin({ onLogin }) {
       )}
 
       {/* LOGO */}
-      <img src="/logo.png" alt="Logo" className="logo" />
+      <img src="/loge.png" alt="Logo" className="logo" />
 
       {/* STUDENT BADGE */}
       <div className="student-badge">Student</div>
