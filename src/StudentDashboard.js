@@ -48,8 +48,17 @@ export default function StudentDashboard({ user, onLogout }) {
         const res = await axios.get(`${API_BASE}/admin/pcs`, {
           headers: { "ngrok-skip-browser-warning": "true" }
         });
-        const firstAvailable = res.data.find(pc => pc.status === "available");
-        if (firstAvailable) setSelectedPc(firstAvailable.pc_name);
+        const sortedPcs = [...res.data].sort((a, b) =>
+  a.pc_name.localeCompare(b.pc_name)
+);
+
+const firstAvailable = sortedPcs.find(
+  pc => pc.status === "available"
+);
+
+if (firstAvailable) {
+  setSelectedPc(firstAvailable.pc_name);
+}
       } catch (err) {
         console.error(err);
       }
@@ -85,8 +94,17 @@ export default function StudentDashboard({ user, onLogout }) {
           const res = await axios.get(`${API_BASE}/admin/pcs`, {
             headers: { "ngrok-skip-browser-warning": "true" }
           });
-          const firstAvailable = res.data.find(pc => pc.status === "available");
-          if (firstAvailable) setSelectedPc(firstAvailable.pc_name);
+          const sortedPcs = [...res.data].sort((a, b) =>
+  a.pc_name.localeCompare(b.pc_name)
+);
+
+const firstAvailable = sortedPcs.find(
+  pc => pc.status === "available"
+);
+
+if (firstAvailable) {
+  setSelectedPc(firstAvailable.pc_name);
+}
         } catch (err) {
           console.error(err);
         }
