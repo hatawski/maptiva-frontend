@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import StudentLogin from "./StudentLogin";
-import StudentSignup from "./StudentSignup";
-import StudentDashboard from "./StudentDashboard";
-import AdminLogin from "./AdminLogin";
-import AdminPanel from "./AdminPanel";
-import About from "./About";
+import StudentLogin from ".../StudentLogin";
+import StudentSignup from ".../StudentSignup";
+import StudentDashboard from ".../StudentDashboard";
+import AdminLogin from ".../AdminLogin";
+import AdminPanel from ".../AdminPanel";
+import About from ".../About";
 
 export default function App() {
   // ✅ Load user from localStorage on startup
@@ -38,6 +38,18 @@ export default function App() {
     setIsAdmin(false);
     localStorage.removeItem("isAdmin");
   };
+
+  // ✅ Keep Render backend awake
+useEffect(() => {
+  const keepAlive = () => {
+    fetch("https://maptiva-backend.onrender.com/debug/pcs")
+      .catch(() => {});
+  };
+  
+  keepAlive(); // ping on load
+  const interval = setInterval(keepAlive, 14 * 60 * 1000); // every 14 mins
+  return () => clearInterval(interval);
+}, []);
 
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
