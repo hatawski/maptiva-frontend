@@ -12,7 +12,7 @@ export default function StudentSignup() {
   const [error, setError] = useState("");
 
   const API_BASE =
-    "https://maptiva-backend.onrender.com";
+    "http://50.0.14.185:5000";
 
   const handleSignup = async (e) => {
     e.preventDefault();

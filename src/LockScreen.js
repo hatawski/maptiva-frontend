@@ -6,7 +6,7 @@ import "./lockscreen.css";
 
 const PC_NAME = "PC01"; // ← change this per machine
 
-const API_BASE = "https://maptiva-backend.onrender.com";
+const API_BASE = "http://50.0.14.185:5000";
 
 export default function LockScreen({ onUnlock }) {
   const [status, setStatus] = useState("locked");

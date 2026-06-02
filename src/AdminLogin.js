@@ -11,7 +11,7 @@ export default function AdminLogin({ onAdminLogin }) {  // ← add prop
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE = "https://maptiva-backend.onrender.com";
+  const API_BASE = "http://50.0.14.185:5000";
 
   const handleLogin = async (e) => {
     e.preventDefault();

@@ -15,7 +15,7 @@ export default function StudentDashboard({ user, onLogout }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [selectedPc, setSelectedPc] = useState(null); // ← moved to top
 
-  const API_BASE = "https://maptiva-backend.onrender.com";
+  const API_BASE = "http://50.0.14.185:5000";
 
   // ✅ qrValue uses selectedPc — now safe since selectedPc is declared above
   const qrValue = selectedPc
