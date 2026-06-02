@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import StudentLogin from "../StudentLogin";
-import StudentSignup from "../StudentSignup";
-import StudentDashboard from "../StudentDashboard";
-import AdminLogin from "../AdminLogin";
-import AdminPanel from "../AdminPanel";
-import About from "../About";
+import StudentLogin from "./StudentLogin";
+import StudentSignup from "./StudentSignup";
+import StudentDashboard from "./StudentDashboard";
+import AdminLogin from "./AdminLogin";
+import AdminPanel from "./AdminPanel";
+import About from "./About";
 
 export default function App() {
   // ✅ Load user from localStorage on startup

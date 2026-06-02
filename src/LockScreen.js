@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import QRCode from "react-qr-code";
 import axios from "axios";
-import "../lockscreen.css";
+import "./lockscreen.css";
 
 const PC_NAME = "PC01"; // ← change this per machine
 

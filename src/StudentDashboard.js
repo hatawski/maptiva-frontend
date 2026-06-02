@@ -3,7 +3,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
-import "../studentdashboard.css";
+import "./studentdashboard.css";
 
 export default function StudentDashboard({ user, onLogout }) {
   const navigate = useNavigate();
