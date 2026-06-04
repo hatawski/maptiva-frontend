@@ -11,8 +11,7 @@ export default function StudentSignup() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const API_BASE =
-    "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
   const handleSignup = async (e) => {
     e.preventDefault();

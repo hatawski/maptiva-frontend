@@ -6,7 +6,7 @@ import "./lockscreen.css";
 
 const PC_NAME = "PC01"; // ← change this per machine
 
-const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev".trim();
 
 export default function LockScreen({ onUnlock }) {
   const [status, setStatus] = useState("locked");
@@ -35,6 +35,7 @@ export default function LockScreen({ onUnlock }) {
   useEffect(() => {
     const socket = io(API_BASE, {
       transports: ["websocket", "polling"],
+      forceNew: true,
       extraHeaders: { "ngrok-skip-browser-warning": "true" }
     });
 
