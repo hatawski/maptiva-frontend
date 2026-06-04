@@ -12,7 +12,7 @@ export default function StudentSignup() {
   const [error, setError] = useState("");
 
   const API_BASE =
-    "http://50.0.14.185:5000";
+    "alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
   const handleSignup = async (e) => {
     e.preventDefault();

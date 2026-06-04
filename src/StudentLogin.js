@@ -18,7 +18,7 @@ export default function StudentLogin({ onLogin }) {
   const [reportMessage, setReportMessage] = useState("");
   const [reportName, setReportName] = useState("");
 
-  const API_BASE = "http://50.0.14.185:5000";
+  const API_BASE = "alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
   // ===============================
   // 1️⃣ Manual Login

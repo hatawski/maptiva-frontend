@@ -11,7 +11,7 @@ export default function AdminLogin({ onAdminLogin }) {  // ← add prop
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE = "http://50.0.14.185:5000";
+  const API_BASE = "alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
   const handleLogin = async (e) => {
     e.preventDefault();
