@@ -13,7 +13,7 @@ export default function AdminPanel({ onLogout }) {
   const [selectedTab, setSelectedTab] = useState("layout");
   const [showMenu, setShowMenu] = useState(false);
 
-  const API_BASE = "alejandra-uncognisable-undescriptively.ngrok-free.dev";
+  const API_BASE = " https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
   const config = {
     headers: {
       "ngrok-skip-browser-warning": "true",

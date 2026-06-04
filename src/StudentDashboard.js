@@ -15,7 +15,7 @@ export default function StudentDashboard({ user, onLogout }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [selectedPc, setSelectedPc] = useState(null); // ← moved to top
 
-  const API_BASE = "alejandra-uncognisable-undescriptively.ngrok-free.dev";
+  const API_BASE = " https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
   // ✅ qrValue uses selectedPc — now safe since selectedPc is declared above
   const qrValue = selectedPc
