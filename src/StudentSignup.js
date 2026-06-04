@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./studentsignup.css";
-import logo from "../assets/logo.png"; // ✅ Adjust this path to point to your image asset file
+import logo from "../public/logo.png"; // ✅ Adjust this path to point to your image asset file
 
 export default function StudentSignup() {
   const navigate = useNavigate();
