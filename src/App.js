@@ -39,24 +39,6 @@ export default function App() {
     localStorage.removeItem("isAdmin");
   };
 
-  // ✅ Keep Render backend awake
-useEffect(() => {
-  const keepAlive = () => {
-    fetch("https://alejandra-uncognisable-undescriptively.ngrok-free.dev/debug/pcs", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true" // 👈 Bypasses the ngrok landing screen
-      }
-    })
-    .catch(() => {});
-  };
-  
-  keepAlive(); // ping on load
-  const interval = setInterval(keepAlive, 14 * 60 * 1000); // every 14 mins
-  return () => clearInterval(interval);
-}, []);
-
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>

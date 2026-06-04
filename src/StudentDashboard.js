@@ -15,7 +15,7 @@ export default function StudentDashboard({ user, onLogout }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [selectedPc, setSelectedPc] = useState(null); // ← moved to top
 
-  const API_BASE = " https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
   // ✅ qrValue uses selectedPc — now safe since selectedPc is declared above
   const qrValue = selectedPc
@@ -48,17 +48,8 @@ export default function StudentDashboard({ user, onLogout }) {
         const res = await axios.get(`${API_BASE}/admin/pcs`, {
           headers: { "ngrok-skip-browser-warning": "true" }
         });
-        const sortedPcs = [...res.data].sort((a, b) =>
-  a.pc_name.localeCompare(b.pc_name)
-);
-
-const firstAvailable = sortedPcs.find(
-  pc => pc.status === "available"
-);
-
-if (firstAvailable) {
-  setSelectedPc(firstAvailable.pc_name);
-}
+        const firstAvailable = res.data.find(pc => pc.status === "available");
+        if (firstAvailable) setSelectedPc(firstAvailable.pc_name);
       } catch (err) {
         console.error(err);
       }
@@ -94,17 +85,8 @@ if (firstAvailable) {
           const res = await axios.get(`${API_BASE}/admin/pcs`, {
             headers: { "ngrok-skip-browser-warning": "true" }
           });
-          const sortedPcs = [...res.data].sort((a, b) =>
-  a.pc_name.localeCompare(b.pc_name)
-);
-
-const firstAvailable = sortedPcs.find(
-  pc => pc.status === "available"
-);
-
-if (firstAvailable) {
-  setSelectedPc(firstAvailable.pc_name);
-}
+          const firstAvailable = res.data.find(pc => pc.status === "available");
+          if (firstAvailable) setSelectedPc(firstAvailable.pc_name);
         } catch (err) {
           console.error(err);
         }

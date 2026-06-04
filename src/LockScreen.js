@@ -6,7 +6,7 @@ import "./lockscreen.css";
 
 const PC_NAME = "PC01"; // ← change this per machine
 
-const API_BASE = " https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
 export default function LockScreen({ onUnlock }) {
   const [status, setStatus] = useState("locked");

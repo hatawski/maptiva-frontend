@@ -18,7 +18,7 @@ export default function StudentLogin({ onLogin }) {
   const [reportMessage, setReportMessage] = useState("");
   const [reportName, setReportName] = useState("");
 
-  const API_BASE = " https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
 
   // ===============================
   // 1️⃣ Manual Login
@@ -172,7 +172,7 @@ export default function StudentLogin({ onLogin }) {
       )}
 
       {/* LOGO */}
-      <img src="/logo.png" alt="Logo" className="logo" />
+      <img src="/loge.png" alt="Logo" className="logo" />
 
       {/* STUDENT BADGE */}
       <div className="student-badge">Student</div>
