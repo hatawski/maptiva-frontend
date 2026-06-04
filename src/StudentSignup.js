@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./studentsignup.css";
-import logo from "../public/logo.png"; // ✅ Adjust this path to point to your image asset file
 
 export default function StudentSignup() {
   const navigate = useNavigate();
@@ -41,9 +40,9 @@ export default function StudentSignup() {
   return (
     <div className="signup-container">
       <div className="form-box">
-        {/* ✅ Logo placement inside the card, middle top */}
+        {/* ✅ Directly reference the public folder using an absolute root path */}
         <div className="logo-container">
-          <img src={logo} alt="MAPTIVA Logo" className="form-logo" />
+          <img src="/logo.png" alt="MAPTIVA Logo" className="form-logo" />
         </div>
 
         <h2>Create Account</h2>
