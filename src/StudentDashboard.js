@@ -60,7 +60,8 @@ export default function StudentDashboard({ user, onLogout }) {
   // ✅ Socket events
   useEffect(() => {
     const socket = io(API_BASE, {
-      transports: ["polling"],
+      transports: ["websocket", "polling"],
+      forceNew: true,
       extraHeaders: { "ngrok-skip-browser-warning": "true" }
     });
 
@@ -94,8 +95,13 @@ export default function StudentDashboard({ user, onLogout }) {
       fetchAvailablePc();
     });
 
-    return () => socket.disconnect();
-  }, []);
+    return () => {
+      socket.off("connect");
+      socket.off("pc_unlocked");
+      socket.off("pc_locked");
+      socket.disconnect();
+    };
+  }, [user?.id]);
 
   const handleLogout = async () => {
     try {

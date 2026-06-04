@@ -21,42 +21,63 @@ export default function AdminPanel({ onLogout }) {
     }
   };
 
-  const fetchData = async () => {
+  // ✅ Fetch Layout & Requests automatically
+  const fetchRealtimeData = async () => {
     try {
-      const [pcsRes, reportsRes, requestsRes, attendanceRes] = await Promise.all([
+      const [pcsRes, requestsRes] = await Promise.all([
         axios.get(`${API_BASE}/admin/pcs`, config),
-        axios.get(`${API_BASE}/admin/reports`, config),
         axios.get(`${API_BASE}/admin/requests`, config),
-        axios.get(`${API_BASE}/admin/attendance`, config),
       ]);
       setPcs(pcsRes.data);
-      setReports(reportsRes.data);
       setRequests(requestsRes.data);
-      setAttendance(attendanceRes.data);
     } catch (error) {
-      console.error("Failed to fetch admin data:", error);
+      console.error("Realtime fetch failed:", error);
     } finally {
       setLoading(false);
     }
   };
 
+  // ✅ Fetch heavy history data only when the specific tab is opened
+  const fetchTabHistory = async (tab) => {
+    try {
+      if (tab === "reports") {
+        const reportsRes = await axios.get(`${API_BASE}/admin/reports`, config);
+        setReports(reportsRes.data);
+      } else if (tab === "attendance") {
+        const attendanceRes = await axios.get(`${API_BASE}/admin/attendance`, config);
+        setAttendance(attendanceRes.data);
+      }
+    } catch (error) {
+      console.error(`Failed to fetch history for ${tab}:`, error);
+    }
+  };
+
+  // ✅ Trigger real-time loop on load
   useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 5000);
+    fetchRealtimeData();
+    // Slightly relaxed interval to stay friendly with ngrok free-tier rates
+    const interval = setInterval(fetchRealtimeData, 6000); 
     return () => clearInterval(interval);
   }, []);
+
+  // ✅ Watch for tab switching to load heavy databases lazily
+  useEffect(() => {
+    if (selectedTab === "reports" || selectedTab === "attendance") {
+      fetchTabHistory(selectedTab);
+    }
+  }, [selectedTab]);
 
   const handleRequestAction = async (requestId, action) => {
     try {
       await axios.post(`${API_BASE}/admin/handle-request`, { request_id: requestId, action }, config);
-      fetchData();
+      fetchRealtimeData(); // 👈 Fixed reference
     } catch { alert("Failed to update request"); }
   };
 
   const handleForceCheckout = async (pcName) => {
     try {
       await axios.post(`${API_BASE}/admin/force-checkout`, { pc_name: pcName }, config);
-      fetchData();
+      fetchRealtimeData(); // 👈 Fixed reference
     } catch { alert("Failed to force checkout"); }
   };
 
