@@ -16,6 +16,22 @@
   margin-bottom: 20px;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px; /* Adds space between the logo image and the header title */
+  width: 100%;
+}
+
+.form-logo {
+  width: 80px;         /* Adjust width sizing to match your login screen layout */
+  height: auto;        /* Preserves image aspect ratios smoothly */
+  object-fit: contain;
+}
+
+
+
 /* Header box */
 .signup-container .header-box {
   background-color: #135c5a;

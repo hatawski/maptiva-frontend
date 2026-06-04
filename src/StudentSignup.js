@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./studentsignup.css";
+import logo from "../assets/logo.png"; // ✅ Adjust this path to point to your image asset file
 
 export default function StudentSignup() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function StudentSignup() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev";
+  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev".trim();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -40,6 +41,11 @@ export default function StudentSignup() {
   return (
     <div className="signup-container">
       <div className="form-box">
+        {/* ✅ Logo placement inside the card, middle top */}
+        <div className="logo-container">
+          <img src={logo} alt="MAPTIVA Logo" className="form-logo" />
+        </div>
+
         <h2>Create Account</h2>
 
         <form onSubmit={handleSignup}>
