@@ -42,8 +42,14 @@ export default function App() {
   // ✅ Keep Render backend awake
 useEffect(() => {
   const keepAlive = () => {
-    fetch("https://maptiva-backend.onrender.com/debug/pcs")
-      .catch(() => {});
+    fetch("https://alejandra-uncognisable-undescriptively.ngrok-free.dev/debug/pcs", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true" // 👈 Bypasses the ngrok landing screen
+      }
+    })
+    .catch(() => {});
   };
   
   keepAlive(); // ping on load
