@@ -18,7 +18,7 @@ export default function StudentLogin({ onLogin }) {
   const [reportMessage, setReportMessage] = useState("");
   const [reportName, setReportName] = useState("");
 
-  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev".trim();
+  const API_BASE = "https://discusses-reality-accurate-usually.trycloudflare.com";
 
   // ===============================
   // 1️⃣ Manual Login

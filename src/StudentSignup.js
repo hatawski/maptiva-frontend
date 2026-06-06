@@ -11,7 +11,7 @@ export default function StudentSignup() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev".trim();
+  const API_BASE = "https://discusses-reality-accurate-usually.trycloudflare.com";
 
   const handleSignup = async (e) => {
     e.preventDefault();

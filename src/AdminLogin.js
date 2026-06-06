@@ -11,7 +11,7 @@ export default function AdminLogin({ onAdminLogin }) {  // ← add prop
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE = "https://alejandra-uncognisable-undescriptively.ngrok-free.dev".trim();
+  const API_BASE = "https://discusses-reality-accurate-usually.trycloudflare.com";
 
   const handleLogin = async (e) => {
     e.preventDefault();
