@@ -18,7 +18,7 @@ export default function StudentLogin({ onLogin }) {
   const [reportMessage, setReportMessage] = useState("");
   const [reportName, setReportName] = useState("");
 
-  const API_BASE = "https://discusses-reality-accurate-usually.trycloudflare.com";
+  const API_BASE = "https://survive-printers-maker-chelsea.trycloudflare.com";
 
   // ===============================
   // 1️⃣ Manual Login
