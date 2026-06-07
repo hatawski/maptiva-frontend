@@ -1,3 +1,6 @@
+/* ===============================
+   Reset & Basic
+================================ */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,7 +17,9 @@ body {
   color: #fff;
 }
 
-/* ===== LOGIN PAGE ===== */
+/* ===============================
+   Main Login Container
+================================ */
 .login-page {
   display: flex;
   flex-direction: column;
@@ -24,7 +29,166 @@ body {
   padding: 20px;
 }
 
-/* ===== REPORT BUTTON TOP LEFT ===== */
+/* Logo */
+.logo {
+  width: 240px;
+  margin-bottom: 40px;
+  padding-bottom: 1cm;
+}
+
+/* Card */
+.login-container {
+  display: flex;
+  background: transparent;
+  border-radius: 16px;
+  overflow: visible;
+  box-shadow: none;
+  width: 100%;
+  max-width: 800px;
+  gap: 100px;
+}
+
+/* ===============================
+   Left Side - Form
+================================ */
+.login-form {
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  background: #1c2a3a;       
+  border-radius: 16px;         
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.login-form h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+.login-form input {
+  padding: 14px 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  width: 100%;
+  color: #fff;
+  font-size: 14px;
+}
+
+.login-form input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.login-form button {
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(90deg, #2dd6b9, #28b4a3);
+  color: #fff;
+  transition: 0.2s ease;
+}
+
+.login-form button:hover {
+  opacity: 0.9;
+}
+
+.login-form .signup-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 13px;
+  color: #b0c4d9;
+}
+
+.login-form .signup-link .link {
+  color: #2dd6b9;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Error text */
+.error {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* ===============================
+   Right Side - QR
+================================ */
+.qr-container {
+  background: #1f3040;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  border-radius: 16px;        
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+  align-self: center; 
+  width: center;
+}
+
+.qr-container svg {
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+/* QR Hint */
+.qr-container p {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #b0c4d9;
+  text-align: center;
+}
+
+/* ===============================
+   Spinner
+================================ */
+.spinner {
+  margin: 40px auto;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #3498db;
+  border-radius: 100%;
+  display: inline-block;
+  animation: bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 { animation-delay: -0.32s; }
+.spinner .bounce2 { animation-delay: -0.16s; }
+.spinner .bounce3 { animation-delay: 0s; }
+
+@keyframes bouncedelay {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* ===============================
+   Responsive
+================================ */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+  .qr-container {
+    margin-top: 20px;
+  }
+}
+
+/* ===============================
+   Report Button (Top Left)
+================================ */
 .report-btn {
   position: absolute;
   top: 20px;
@@ -48,7 +212,9 @@ body {
   transform: scale(1.05);
 }
 
-/* ===== REPORT MODAL ===== */
+/* ===============================
+   Report Modal
+================================ */
 .report-modal-overlay {
   position: fixed;
   inset: 0;
@@ -142,14 +308,9 @@ body {
   background: #e74c3c;
 }
 
-/* ===== LOGO ===== */
-.logo {
-  width: 240px;
-  margin-bottom: 40px;
-  padding-bottom: 1cm;
-}
-
-/* ===== STUDENT BADGE ===== */
+/* ===============================
+   Student Badge
+================================ */
 .student-badge {
   background: linear-gradient(90deg, #1a8a7a, #16b8a0);
   color: white;
@@ -161,74 +322,9 @@ body {
   letter-spacing: 1px;
 }
 
-/* ===== MAIN CARD ROW ===== */
-.login-container {
-  display: flex;
-  background: transparent;
-  border-radius: 16px;
-  overflow: visible;
-  box-shadow: none;
-  width: 100%;
-  max-width: 800px;
-  gap: 100px;
-}
-
-/* ===== LOGIN FORM CARD ===== */
-.login-form {
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  background: #1c2a3a;       
-  border-radius: 16px;         
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-
-}
-
-.login-form h2 {
-  font-size: 24px;
-  margin-bottom: 25px;
-}
-
-.login-form input {
-  padding: 14px 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  width: 100%;
-  color: #fff;
-  font-size: 14px;
-}
-
-.login-form input:focus {
-  background: rgba(255,255,255,0.18);
-}
-
-.login-form input::placeholder {
-  color: rgba(255,255,255,0.6);
-}
-.login-form button:hover {
-  opacity: 0.9;
-}
-.login-form .signup-link {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 13px;
-  color: #b0c4d9;
-}
-.login-form .signup-link .link {
-  color: #2dd6b9;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.error {
-  color: #ff6b6b;
-  font-size: 13px;
-  margin-top: 8px;
-}
-
-
+/* ===============================
+   Primary Button
+================================ */
 .primary-btn {
   padding: 14px;
   border-radius: 8px;
@@ -247,35 +343,13 @@ body {
   opacity: 0.9;
 }
 
-
-.signup-link .link:hover {
-  text-decoration: underline;
-}
-
-.error {
-  color: #ff6b6b;
-  font-size: 13px;
+/* ===============================
+   Misc
+================================ */
+.pc-assigned {
+  color: #00d4a0;
+  font-size: 12px;
   margin-top: 8px;
-  text-align: center;
-}
-
-/* ===== QR CARD ===== */
-.qr-container {
-  background: #1f3040;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  border-radius: 16px;        
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
-  align-self: center; 
-  width: center;
-}
-
-.qr-container svg {
-  background: #fff;
-  padding: 12px;
-  border-radius: 12px;
 }
 
 .qr-hint {
@@ -283,45 +357,4 @@ body {
   font-size: 13px;
   color: #b0c4d9;
   text-align: center;
-}
-
-/* ===== SPINNER ===== */
-.spinner {
-  margin: 40px auto;
-  width: 70px;
-  text-align: center;
-}
-
-.spinner > div {
-  width: 18px;
-  height: 18px;
-  background-color: #3498db;
-  border-radius: 100%;
-  display: inline-block;
-  animation: bouncedelay 1.4s infinite ease-in-out both;
-}
-
-.spinner .bounce1 { animation-delay: -0.32s; }
-.spinner .bounce2 { animation-delay: -0.16s; }
-.spinner .bounce3 { animation-delay: 0s; }
-
-@keyframes bouncedelay {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .login-container {
-    flex-direction: column;
-  }
-  .qr-container {
-    margin-top: 20px;
-  }
-}
-
-.pc-assigned {
-  color: #00d4a0;
-  font-size: 12px;
-  margin-top: 8px;
 }
