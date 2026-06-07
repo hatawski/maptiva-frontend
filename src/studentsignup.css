@@ -8,7 +8,18 @@
   min-height: 100vh;
   font-family: "Segoe UI", system-ui, sans-serif;
 }
-
+.primary-btn {
+  background-color: #18d6b3;
+  padding: 10px 30px; 
+  border-radius: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  display: block;
+  width: max-content;
+}
 /* Logo */
 .signup-container .logo {
   width: 200px;
