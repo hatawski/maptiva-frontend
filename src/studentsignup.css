@@ -20,22 +20,22 @@ html, body {
 
 /* Logo */
 .signup-container .logo {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   margin-bottom: 20px;
 }
 
 /* Header box */
 .signup-container .header-box {
   background-color: #135c5a;
-  padding: 8px 40px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  padding: 12px 60px;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 .signup-container .header-box .header-text {
   color: #fff;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   text-align: center;
 }
@@ -43,11 +43,11 @@ html, body {
 /* Form box */
 .signup-container .form-box {
   background-color: #1c2a3a; /* Your preferred lighter slate-gray card color */
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  max-width: 400px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  padding: 40px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,9 +56,9 @@ html, body {
 /* Title */
 .signup-container .form-box .title {
   color: #fff;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -66,14 +66,15 @@ html, body {
 .signup-container .form-box input {
   background-color: rgba(255,255,255,0.1); /* Beautiful modern translucent glass effect */
   color: #fff;
-  padding: 10px;
+  padding: 12px 20px;
   border-radius: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   text-align: center;
   width: 100%;
   border: none;
   outline: none;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .signup-container .form-box h2 {
@@ -83,7 +84,7 @@ html, body {
 /* Button */
 .primary-btn {
   background-color: #18d6b3;
-  padding: 10px 30px; 
+  padding: 12px 45px; 
   border-radius: 20px;
   text-align: center;
   font-weight: bold;
@@ -92,15 +93,15 @@ html, body {
   cursor: pointer;
   display: block;
   width: max-content;
-  margin: -5px auto 0 auto; /* Your new adjusted compact top margin spacing */
+  margin: 10px auto 0 auto; /* Your new adjusted compact top margin spacing */
 }
 
 /* Signup text */
 .signup-container .form-box .signup-text {
   color: #fff;
   text-align: center;
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 20px;
+  font-size: 15px;
 }
 
 /* Link */
