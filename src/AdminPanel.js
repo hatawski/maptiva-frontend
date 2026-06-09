@@ -82,11 +82,34 @@ export default function AdminPanel({ onLogout }) {
   };
 
   const handleExportAttendance = async () => {
-    try {
-      const res = await axios.get(`${API_BASE}/admin/export-attendance`, config);
-      alert(res.data.message);
-    } catch { alert("No attendance records to export"); }
-  };
+  try {
+    // 1. Explicitly tell Axios to download this as a binary file (blob)
+    const res = await axios.get(`${API_BASE}/admin/export-attendance`, {
+      ...config,
+      responseType: "blob" 
+    });
+
+    // 2. Create a temporary URL pointing to the downloaded binary file
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const link = document.createElement("a");
+    link.href = url;
+
+    // 3. Set the exact file name your computer should save it as
+    link.setAttribute("download", `Maptiva_Attendance_${new Date().toISOString().split('T')[0]}.xlsx`);
+
+    // 4. Force the browser to click the invisible link and start the download
+    document.body.appendChild(link);
+    link.click();
+
+    // 5. Clean up memory
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+  } catch (error) {
+    console.error("Export failed:", error);
+    alert("Failed to export attendance. Make sure records exist and the server is running.");
+  }
+};
 
   const handleLogout = () => {
     if (onLogout) onLogout();
