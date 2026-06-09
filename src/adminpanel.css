@@ -266,8 +266,8 @@
   width: 100%;
 }
 
-.admin-card p { font-size: 14px; margin: 4px 0; }
-.admin-card small { color: #636e72; font-size: 12px; }
+.admin-card p { font-size: 18px; margin: 4px 0; }
+.admin-card small { color: #636e72; font-size: 18px; }
 .status-text { color: #b2bec3; font-size: 13px; }
 .empty-msg { color: #b2bec3; font-size: 14px; }
 
@@ -322,7 +322,7 @@
 .attendance-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 20px;
 }
 
 .attendance-table th {
