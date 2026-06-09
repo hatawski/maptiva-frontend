@@ -36,7 +36,6 @@ body {
 .logo {
   width: 240px;
   margin-bottom: 50px;
-  padding-bottom: 1cm;
 }
 
 /* Card */
@@ -47,7 +46,6 @@ body {
   background: transparent;
   border-radius: 16px;
   overflow: visible;
-  box-shadow: none;
   width: auto;
   gap: 45px;
 }
@@ -56,7 +54,8 @@ body {
    Left Side - Form
 ================================ */
 .login-form {
-  position:55px 40px 30px;
+  position:relative;
+  padding: 55px 40px 30px;
   display: flex;
   flex-direction: column;
   background: #192a3a;       
@@ -142,7 +141,7 @@ body {
   height: 290px;
 }
 
-.qr-container svg {
+.qr-container svg, .qr-container img {
   background: #fff;
   padding: 16px;
   border-radius: 8px;        
@@ -189,6 +188,12 @@ body {
    Responsive
 ================================ */
 @media (max-width: 768px) {
+  body {
+    align-items: center;
+    height: auto;
+    overflow: auto;
+    padding: 40px 0;
+  }
   .login-container {
     flex-direction: column;
     align-items: center;
