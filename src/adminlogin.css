@@ -1,6 +1,6 @@
 .admin-login-page {
   min-height: 80vh;
-  background: linear-gradient(to bottom, #0a1a2f, #1e4d6b);
+  background: linear-gradient(to bottom, #0a1a2f);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
 }
 
 .admin-login-box {
-  background: rgba(15, 35, 60, 0.95);
+  background: #1c2a3a;
   padding: 40px;
   border-radius: 20px;
   width: 400px;
@@ -29,14 +29,20 @@
   margin-bottom: 30px;
 }
 
+.admin-login-box input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
 .admin-login-box input {
   width: 100%;
   padding: 14px;
+  background-color: rgba(255,255,255,0.1);
   margin-bottom: 15px;
   border-radius: 10px;
   border: none;
   outline: none;
   font-size: 16px;
+  color: rgba(255,255,255,0.6);
 }
 
 .admin-login-box button {
