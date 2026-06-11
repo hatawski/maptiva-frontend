@@ -15,7 +15,7 @@ export default function StudentDashboard({ user, onLogout }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [selectedPc, setSelectedPc] = useState(null); // ← moved to top
 
-  const API_BASE = "https://survive-printers-maker-chelsea.trycloudflare.com";
+  const API_BASE = "https://membrane-mate-fourth-disks.trycloudflare.com";
 
   // ✅ qrValue uses selectedPc — now safe since selectedPc is declared above
   const qrValue = selectedPc

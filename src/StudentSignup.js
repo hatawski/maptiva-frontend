@@ -11,7 +11,7 @@ export default function StudentSignup() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const API_BASE = "https://survive-printers-maker-chelsea.trycloudflare.com";
+  const API_BASE = "https://membrane-mate-fourth-disks.trycloudflare.com";
 
   const handleSignup = async (e) => {
     e.preventDefault();
