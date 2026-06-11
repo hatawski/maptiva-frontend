@@ -13,14 +13,12 @@ export default function StudentDashboard({ user, onLogout }) {
   const [reportMessage, setReportMessage] = useState("");
   const [reservation, setReservation] = useState(null);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [selectedPc, setSelectedPc] = useState(null); // ← moved to top
+  const [selectedPc, setSelectedPc] = useState(null); 
+  
+  // ✅ Secure QR State Management
+  const [qrValue, setQrValue] = useState("");
 
   const API_BASE = "https://membrane-mate-fourth-disks.trycloudflare.com";
-
-  // ✅ qrValue uses selectedPc — now safe since selectedPc is declared above
-  const qrValue = selectedPc
-    ? `checkin-${user?.id || user?.student_id}-${selectedPc}`
-    : "";
 
   // ✅ Check if student already has an active reservation on load
   useEffect(() => {
@@ -39,7 +37,7 @@ export default function StudentDashboard({ user, onLogout }) {
       }
     };
     if (user?.id) checkReservation();
-  }, [user]);
+  }, [user, API_BASE]);
 
   // ✅ Auto-pick first available PC
   useEffect(() => {
@@ -55,9 +53,44 @@ export default function StudentDashboard({ user, onLogout }) {
       }
     };
     if (user?.id) fetchAvailablePc();
-  }, [user]);
+  }, [user, API_BASE]);
 
-  // ✅ Socket events
+  // ✅ Secure QR Code Fetching Lifecycle
+  useEffect(() => {
+    let intervalId = null;
+
+    const fetchSecureToken = async () => {
+      const studentId = user?.student_id || user?.id;
+      if (!studentId || reservation) return;
+
+      try {
+        // Send the student ID as a parameter to bind it to the generated UUID token
+        const res = await axios.get(`${API_BASE}/qr-token`, {
+          params: { student_id: studentId },
+          headers: { "ngrok-skip-browser-warning": "true" }
+        });
+        
+        if (res.data?.token) {
+          setQrValue(res.data.token);
+        }
+      } catch (err) {
+        console.error("Error fetching secure QR token:", err);
+      }
+    };
+
+    // Trigger on initial state assignment
+    if (user && !reservation) {
+      fetchSecureToken();
+      // Auto-refresh the QR code every 90 seconds before it hits the 2-minute expiration limit
+      intervalId = setInterval(fetchSecureToken, 90000);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [user, reservation, API_BASE]);
+
+  // ✅ Socket events setup
   useEffect(() => {
     const socket = io(API_BASE, {
       transports: ["websocket", "polling"],
@@ -66,7 +99,11 @@ export default function StudentDashboard({ user, onLogout }) {
     });
 
     socket.on("connect", () => {
-      socket.emit("join_student", { student_id: user?.id });
+      const studentId = user?.student_id || user?.id;
+      if (studentId) {
+        // Register the client listener channel via their true identity profile mapping
+        socket.emit("join_student", { student_id: studentId });
+      }
     });
 
     socket.on("pc_unlocked", (data) => {
@@ -80,7 +117,7 @@ export default function StudentDashboard({ user, onLogout }) {
 
     socket.on("pc_locked", () => {
       setReservation(null);
-      // ✅ Re-fetch available PC after checkout
+      // Re-fetch available PC after checkout
       const fetchAvailablePc = async () => {
         try {
           const res = await axios.get(`${API_BASE}/admin/pcs`, {
@@ -101,7 +138,7 @@ export default function StudentDashboard({ user, onLogout }) {
       socket.off("pc_locked");
       socket.disconnect();
     };
-  }, [user?.id]);
+  }, [user, API_BASE]);
 
   const handleLogout = async () => {
     try {
@@ -130,7 +167,7 @@ export default function StudentDashboard({ user, onLogout }) {
       const studentId = user?.id || user?.student_id;
       await axios.post(`${API_BASE}/request-permission`, {
         student_id: studentId,
-        pc_name: selectedPc,  // ✅ auto-picked PC not hardcoded
+        pc_name: selectedPc,  
       }, { headers: { "ngrok-skip-browser-warning": "true" } });
       alert(`Permission request sent for ${selectedPc}!`);
     } catch (error) {
@@ -203,7 +240,7 @@ export default function StudentDashboard({ user, onLogout }) {
         }}>☰</div>
       </div>
 
-      {/* Settings */}
+      {/* Settings Menu */}
       {showSettings && (
         <div className="settings-menu" onClick={(e) => e.stopPropagation()}>
           <p><strong>{user?.name || "User"}</strong></p>
@@ -214,7 +251,7 @@ export default function StudentDashboard({ user, onLogout }) {
         </div>
       )}
 
-      {/* TWO STATES */}
+      {/* Main Container View States */}
       {!reservation ? (
         <div className="qr-section">
           <div className="qr-card">
@@ -226,7 +263,7 @@ export default function StudentDashboard({ user, onLogout }) {
               </>
             ) : (
               <p style={{ color: "#b2bec3", textAlign: "center" }}>
-                No PCs available right now
+                Generating dynamic check-in token...
               </p>
             )}
           </div>
