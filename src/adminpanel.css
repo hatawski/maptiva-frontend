@@ -353,7 +353,7 @@
 
 .status-badge.confirmed { background: rgba(0,184,148,0.2); color: #00d4a0; }
 .status-badge.checked_out { background: rgba(99,110,114,0.3); color: #b2bec3; }
-.status-badge.force_checked_out { background: rgba(231,76,60,0.2); color: #e74c3c; }
+.status-badge.Force_checked_out { background: rgba(231,76,60,0.2); color: #e74c3c; font-size: 100px;}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {

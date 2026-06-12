@@ -241,7 +241,7 @@ export default function AdminPanel({ onLogout }) {
                 )}
                 {pc.status !== "available" && (
                   <button className="force-btn" onClick={() => handleForceCheckout(pc.pc_name)}>
-                    Force Checkout
+                    FORCE CHECKOUT
                   </button>
                 )}
               </div>
@@ -312,7 +312,7 @@ export default function AdminPanel({ onLogout }) {
                       <td>{r.time_out}</td>
                       <td>
                         <span className={`status-badge ${r.status}`}>
-                          {r.status}
+                          {r.status.replace(/_/g, " ").toUpperCase()}
                         </span>
                       </td>
                     </tr>
