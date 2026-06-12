@@ -48,41 +48,25 @@ export default function StudentDashboard({ user, onLogout }) {
 
   // ✅ Check if student already has an active reservation on load
 
-  useEffect(() => {
-
-    const checkReservation = async () => {
-
-      try {
-
-        const id = user?.id;
-
-        if (!id) return;
-
-        const res = await axios.get(`${API_BASE}/student/reservation/${id}`, {
-
-          headers: { "ngrok-skip-browser-warning": "true" }
-
-        });
-
-        if (res.data?.pc_name) {
-
-          setReservation(res.data);
-
-        }
-
-      } catch {
-
-        // no reservation yet
-
+  // Inside your React file (e.g., StudentDashboard.jsx):
+useEffect(() => {
+  const checkActiveReservation = async () => {
+    // ✅ Change to user?.id (which passes an integer like 1)
+    const id = user?.id; 
+    
+    if (!id) return;
+    
+    try {
+      const res = await axios.get(`${API_BASE}/student/reservation/${id}`);
+      if (res.data?.pc_name) {
+        setReservation(res.data);
       }
-
-    };
-
-    if (user?.id) checkReservation();
-
-  }, [user]);
-
-
+    } catch (err) {
+      console.log("No active workstation reservation session found.");
+    }
+  };
+  checkActiveReservation();
+}, [user]);
 
   // ✅ Auto-pick first available PC
 
