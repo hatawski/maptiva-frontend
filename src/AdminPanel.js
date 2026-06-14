@@ -55,7 +55,6 @@ export default function AdminPanel({ onLogout }) {
   // ✅ Trigger real-time loop on load
   useEffect(() => {
     fetchRealtimeData();
-    // Slightly relaxed interval to stay friendly with ngrok free-tier rates
     const interval = setInterval(fetchRealtimeData, 6000); 
     return () => clearInterval(interval);
   }, []);
@@ -70,46 +69,40 @@ export default function AdminPanel({ onLogout }) {
   const handleRequestAction = async (requestId, action) => {
     try {
       await axios.post(`${API_BASE}/admin/handle-request`, { request_id: requestId, action }, config);
-      fetchRealtimeData(); // 👈 Fixed reference
+      fetchRealtimeData(); 
     } catch { alert("Failed to update request"); }
   };
 
   const handleForceCheckout = async (pcName) => {
     try {
       await axios.post(`${API_BASE}/admin/force-checkout`, { pc_name: pcName }, config);
-      fetchRealtimeData(); // 👈 Fixed reference
+      fetchRealtimeData(); 
     } catch { alert("Failed to force checkout"); }
   };
 
   const handleExportAttendance = async () => {
-  try {
-    // 1. Explicitly tell Axios to download this as a binary file (blob)
-    const res = await axios.get(`${API_BASE}/admin/export-attendance`, {
-      ...config,
-      responseType: "blob" 
-    });
+    try {
+      const res = await axios.get(`${API_BASE}/admin/export-attendance`, {
+        ...config,
+        responseType: "blob" 
+      });
 
-    // 2. Create a temporary URL pointing to the downloaded binary file
-    const url = window.URL.createObjectURL(new Blob([res.data]));
-    const link = document.createElement("a");
-    link.href = url;
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `Maptiva_Attendance_${new Date().toISOString().split('T')[0]}.xlsx`);
 
-    // 3. Set the exact file name your computer should save it as
-    link.setAttribute("download", `Maptiva_Attendance_${new Date().toISOString().split('T')[0]}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
 
-    // 4. Force the browser to click the invisible link and start the download
-    document.body.appendChild(link);
-    link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
 
-    // 5. Clean up memory
-    link.parentNode.removeChild(link);
-    window.URL.revokeObjectURL(url);
-
-  } catch (error) {
-    console.error("Export failed:", error);
-    alert("Failed to export attendance. Make sure records exist and the server is running.");
-  }
-};
+    } catch (error) {
+      console.error("Export failed:", error);
+      alert("Failed to export attendance. Make sure records exist and the server is running.");
+    }
+  };
 
   const handleLogout = () => {
     if (onLogout) onLogout();
@@ -161,7 +154,7 @@ export default function AdminPanel({ onLogout }) {
         <h2>{tabTitles[selectedTab]}</h2>
       </div>
 
-      {/* ✅ OVERLAY */}
+      {/* OVERLAY */}
       {showMenu && (
         <div
           className="drawer-overlay"
@@ -169,7 +162,7 @@ export default function AdminPanel({ onLogout }) {
         />
       )}
 
-      {/* ✅ SLIDE-IN DRAWER */}
+      {/* SLIDE-IN DRAWER */}
       <div className={`admin-drawer ${showMenu ? "open" : ""}`}>
         <div className="drawer-header">
           <div className="drawer-avatar">A</div>
@@ -249,8 +242,9 @@ export default function AdminPanel({ onLogout }) {
           </div>
         )}
 
+        {/* ✅ WRAPPED IN SCROLL WRAPPER */}
         {selectedTab === "requests" && (
-          <div>
+          <div className="admin-scroll-wrapper">
             {requests.length === 0 ? (
               <p className="empty-msg">No pending requests.</p>
             ) : (
@@ -270,8 +264,9 @@ export default function AdminPanel({ onLogout }) {
           </div>
         )}
 
+        {/* ✅ WRAPPED IN SCROLL WRAPPER */}
         {selectedTab === "reports" && (
-          <div>
+          <div className="admin-scroll-wrapper">
             {reports.length === 0 ? (
               <p className="empty-msg">No reports submitted.</p>
             ) : (
@@ -286,8 +281,9 @@ export default function AdminPanel({ onLogout }) {
           </div>
         )}
 
+        {/* ✅ WRAPPED IN SCROLL WRAPPER */}
         {selectedTab === "attendance" && (
-          <div>
+          <div className="admin-scroll-wrapper">
             {attendance.length === 0 ? (
               <p className="empty-msg">No attendance records yet.</p>
             ) : (

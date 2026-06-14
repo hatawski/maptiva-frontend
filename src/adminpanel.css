@@ -206,6 +206,27 @@
   width: 100%;
 }
 
+/* ✅ NEW PANEL CONTENT SCROLL HANDLER CLASS SETUP */
+.admin-scroll-wrapper {
+  max-height: 72vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  width: 100%;
+}
+
+/* Custom Scrollbar styling rules for Webkit Engines */
+.admin-scroll-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.admin-scroll-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+}
+.admin-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #00d4a0;
+  border-radius: 10px;
+}
+
 /* ===== PC GRID ===== */
 .pc-grid {
   display: grid;
@@ -326,12 +347,15 @@
 }
 
 .attendance-table th {
-  background: rgba(0,184,148,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #041c32; 
+  box-shadow: inset 0 -2px 0 rgba(0,184,148,0.4); 
   color: #00d4a0;
-  padding: 10px 12px;
+  padding: 12px;
   text-align: left;
   font-weight: 700;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .attendance-table td {
@@ -353,7 +377,7 @@
 
 .status-badge.confirmed { background: rgba(0,184,148,0.2); color: #00d4a0; }
 .status-badge.checked_out { background: rgba(99,110,114,0.3); color: #b2bec3; }
-.status-badge.Force_checked_out { background: rgba(231,76,60,0.2); color: #e74c3c; font-size: 100px;}
+.status-badge.force_checked_out { background: rgba(231,76,60,0.2); color: #e74c3c; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
@@ -365,4 +389,5 @@
   .admin-content { padding: 16px; }
   .admin-tab-title { padding: 16px 16px 0; }
   .pc-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-scroll-wrapper { max-height: 65vh; } /* Tighter view bounds on compact mobile screen view ports */
 }

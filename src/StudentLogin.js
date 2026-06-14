@@ -3,13 +3,14 @@ import axios from "axios";
 import QRCode from "react-qr-code";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import ForgotPasswordModal from "./ForgotPasswordModal"; // ✅ Imported the modal file
 import "./studentlogin.css";
 
 export default function StudentLogin({ onLogin }) {
   const navigate = useNavigate();
   const socketRef = useRef(null);
 
-  const [studentId, setStudentId] = useState("");
+  const [studentId, setStudentId] = useState(""); // Holds the 12-digit numeric LRN
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [qrValue, setQrValue] = useState(null);
@@ -17,6 +18,7 @@ export default function StudentLogin({ onLogin }) {
   const [showReport, setShowReport] = useState(false);
   const [reportMessage, setReportMessage] = useState("");
   const [reportName, setReportName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // ✅ Added modal visibility state trigger
 
   const API_BASE = "https://membrane-mate-fourth-disks.trycloudflare.com";
 
@@ -27,13 +29,16 @@ export default function StudentLogin({ onLogin }) {
     e.preventDefault();
     setError("");
 
-    const formattedId = studentId.startsWith("CA")
-      ? studentId
-      : `CA${studentId}`;
+    // ✅ Enforce clean validation logic checking for exactly 12 digits
+    const lrnPattern = /^\d{12}$/;
+    if (!lrnPattern.test(studentId)) {
+      setError("LRN must be exactly 12 digits (e.g., 102345678901).");
+      return;
+    }
 
     try {
       const res = await axios.post(`${API_BASE}/login`, {
-        student_id: formattedId,
+        student_id: studentId, // Passes clean numeric string directly to database handler
         password,
       }, {
         headers: { "ngrok-skip-browser-warning": "true" }
@@ -45,7 +50,7 @@ export default function StudentLogin({ onLogin }) {
       }
     } catch (err) {
       if (err.response?.status === 401) {
-        setError("Invalid Student ID or Password.");
+        setError("Invalid LRN or Password.");
       } else if (err.code === "ERR_NETWORK") {
         setError("Cannot connect to the server.");
       } else {
@@ -184,11 +189,13 @@ export default function StudentLogin({ onLogin }) {
         <div className="login-form">
           <h2>Log In</h2>
           <form onSubmit={handleLogin}>
+            {/* ✅ Updated Placeholder, MaxLength, and auto-filters non-digits */}
             <input
               type="text"
-              placeholder="Account No."
+              placeholder="12-Digit LRN"
+              maxLength={12}
               value={studentId}
-              onChange={(e) => setStudentId(e.target.value.toUpperCase())}
+              onChange={(e) => setStudentId(e.target.value.replace(/\D/g, ""))}
               required
             />
             <input
@@ -198,6 +205,17 @@ export default function StudentLogin({ onLogin }) {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            
+            {/* ✅ Added anchor layout for Forgot Password workflow trigger functionality */}
+            <div style={{ textAlign: "right", margin: "-8px 0 15px 0" }}>
+              <span 
+                onClick={() => setIsModalOpen(true)} 
+                style={{ color: "#00d4a0", cursor: "pointer", fontSize: "13px", textDecoration: "underline" }}
+              >
+                Forgot Password?
+              </span>
+            </div>
+
             <button type="submit" className="primary-btn">
               Log In
             </button>
@@ -234,6 +252,12 @@ export default function StudentLogin({ onLogin }) {
         </div>
 
       </div>
+
+      {/* ✅ Render structural modal component cleanly context-bounded */}
+      <ForgotPasswordModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 }
