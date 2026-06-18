@@ -1,78 +1,181 @@
 .about-container {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  background-color: #00131A;
-  color: white;
-  font-family: Arial, sans-serif;
-  overflow-y: auto;
-}
-
-/* 🔙 Back button */
-.back-button {
-  padding: 20px;
-  font-size: 20px;
-  cursor: pointer;
-  color: white;
-}
-
-/* 📜 Content */
-.about-content {
-  padding: 0 25px 50px 25px;
-}
-
-/* Logo + Title */
-.logo {
-  font-size: 50px;
-  font-weight: 900;
-  color: #00B7A8;
+  background-color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.title {
+/* Curved Header Top Bar Styling */
+.about-header {
+  position: relative;
+  background-color: #032b30; /* Dark Teal Base */
+  padding: 40px 20px 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 50% 25px; /* Creates the elegant bottom layout curve */
+  border-bottom-right-radius: 50% 25px;
+  box-shadow: inset 0 -4px 0px #04d9b2; /* Subtle neon green bottom accent line overlay */
+}
+
+.back-arrow-btn {
+  position: absolute;
+  left: 25px;
+  top: 25px;
+  background: none;
+  border: none;
+  color: #04d9b2;
   font-size: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.back-arrow-btn:hover {
+  transform: scale(1.1);
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand-m-logo {
+  font-size: 54px;
+  font-weight: 900;
+  color: #04d9b2;
+  font-style: italic;
+  line-height: 1;
+}
+
+.brand-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-main-title {
+  color: #ffffff;
+  font-size: 32px;
   font-weight: 700;
-  color: #00B7A8;
+  letter-spacing: 2px;
   margin: 0;
+  line-height: 1;
 }
 
-.tagline {
-  color: #9acccd;
+.brand-subtitle {
+  color: #ffffff;
+  font-size: 14px;
+  margin: 4px 0 0 0;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+/* Center Content Body Paragraphs */
+.about-body {
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 25px;
+  text-align: center;
+}
+
+.content-heading {
+  color: #04d9b2;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.content-paragraph {
+  color: #2c3e50;
+  font-size: 15px;
+  line-height: 1.7;
   margin-bottom: 20px;
+  font-weight: 400;
 }
 
-/* Section */
-.section-title {
-  color: #00B7A8;
-  font-weight: 700;
-  margin-bottom: 10px;
+.highlight-brand {
+  color: #0288d1;
+  font-weight: 600;
 }
 
-/* Paragraph */
-.paragraph {
-  color: #ccc;
-  margin-bottom: 15px;
-  line-height: 1.5;
+/* Blue Gradient Footer Strip Styling */
+.about-footer-strip {
+  background: linear-gradient(to right, #001f3f, #0d47a1); /* Deep navy blue to lighter blue gradient layout */
+  padding: 40px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
 }
 
-/* Mission/Vision */
-.subheading {
-  color: #fff;
-  font-weight: 700;
+.values-column {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 60%;
+}
+
+.value-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.value-title {
   font-size: 16px;
-  background-color: #0A2C44;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin: 0 0 5px 0;
+  color: #ffffff;
 }
 
-/* Footer */
-.footer-title {
-  color: #999;
-  margin-top: 30px;
+.value-text {
+  font-size: 14px;
+  color: #cfd8dc;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 300;
 }
 
-.footer {
-  color: #fff;
+.overview-branding {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.overview-tag {
+  font-size: 14px;
+  font-weight: 300;
+  color: #b0bec5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.overview-title {
+  font-size: 32px;
   font-weight: 700;
-  font-size: 18px;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* Responsiveness adjustments for smaller devices */
+@media (max-width: 768px) {
+  .about-footer-strip {
+    flex-direction: column;
+    text-align: left;
+    gap: 30px;
+    padding: 30px 25px;
+  }
+  .values-column {
+    max-width: 100%;
+  }
+  .overview-branding {
+    text-align: left;
+    align-self: flex-start;
+  }
 }
