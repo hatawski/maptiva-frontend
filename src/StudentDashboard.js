@@ -65,7 +65,7 @@ export default function StudentDashboard({ user, onLogout }) {
     if (reservation) return; // Stop fetching tokens if already checked in
 
     const fetchSecureToken = async () => {
-      const currentStudentId = user?.student_id || user?.id;
+      const currentStudentId = user?.id;
       if (!currentStudentId || !selectedPc) return;
 
       try {
