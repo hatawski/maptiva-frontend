@@ -13,7 +13,7 @@ export default function AdminPanel({ onLogout }) {
   const [selectedTab, setSelectedTab] = useState("layout");
   const [showMenu, setShowMenu] = useState(false);
 
-  const API_BASE = "https://membrane-mate-fourth-disks.trycloudflare.com";
+  const API_BASE = "https://atom-scratch-agreements-toxic.trycloudflare.com";
   const config = {
     headers: {
       "ngrok-skip-browser-warning": "true",

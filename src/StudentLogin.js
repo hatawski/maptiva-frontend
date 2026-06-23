@@ -20,7 +20,7 @@ export default function StudentLogin({ onLogin }) {
   const [reportName, setReportName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // ✅ Added modal visibility state trigger
 
-  const API_BASE = "https://membrane-mate-fourth-disks.trycloudflare.com";
+  const API_BASE = "https://atom-scratch-agreements-toxic.trycloudflare.com";
 
   // ===============================
   // 1️⃣ Manual Login
