@@ -291,7 +291,7 @@ export default function AdminPanel({ onLogout }) {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Student ID</th>
+                    <th>Student LRN</th>
                     <th>PC</th>
                     <th>Time In</th>
                     <th>Time Out</th>
