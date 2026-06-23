@@ -32,7 +32,7 @@ export default function StudentDashboard({ user, onLogout }) {
 
 
 
-  const API_BASE = "https://atom-scratch-agreements-toxic.trycloudflare.com";
+  const API_BASE = "https://somehow-fighter-transportation-tomorrow.trycloudflare.com";
 
 
 

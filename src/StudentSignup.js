@@ -12,7 +12,7 @@ export default function StudentSignup() {
   const [email, setEmail] = useState(""); // ✅ Added state for email address
   const [error, setError] = useState("");
 
-  const API_BASE = "https://atom-scratch-agreements-toxic.trycloudflare.com";
+  const API_BASE = "https://somehow-fighter-transportation-tomorrow.trycloudflare.com";
 
   const handleSignup = async (e) => {
     e.preventDefault();
