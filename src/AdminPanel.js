@@ -21,7 +21,7 @@ export default function AdminPanel({ onLogout }) {
     }
   };
 
-  // ✅ Fetch Layout & Requests automatically
+  // ✅ Updated to cleanly include the active history datasets during re-polling passes
   const fetchRealtimeData = async () => {
     try {
       const [pcsRes, requestsRes] = await Promise.all([
@@ -30,6 +30,15 @@ export default function AdminPanel({ onLogout }) {
       ]);
       setPcs(pcsRes.data);
       setRequests(requestsRes.data);
+
+      // If the admin is actively looking at these logs during an auto-refresh pass, update them too!
+      if (selectedTab === "attendance") {
+        const attendanceRes = await axios.get(`${API_BASE}/admin/attendance`, config);
+        setAttendance(attendanceRes.data);
+      } else if (selectedTab === "reports") {
+        const reportsRes = await axios.get(`${API_BASE}/admin/reports`, config);
+        setReports(reportsRes.data);
+      }
     } catch (error) {
       console.error("Realtime fetch failed:", error);
     } finally {
@@ -52,19 +61,19 @@ export default function AdminPanel({ onLogout }) {
     }
   };
 
-  // ✅ Trigger real-time loop on load
-  useEffect(() => {
-    fetchRealtimeData();
-    const interval = setInterval(fetchRealtimeData, 6000); 
-    return () => clearInterval(interval);
-  }, []);
-
-  // ✅ Watch for tab switching to load heavy databases lazily
+  // ✅ Ensure re-fetch loop recognizes when tabs swap so it updates instantly
   useEffect(() => {
     if (selectedTab === "reports" || selectedTab === "attendance") {
       fetchTabHistory(selectedTab);
     }
   }, [selectedTab]);
+
+  // ✅ Add selectedTab to your layout polling array so the loop can read the active state accurately
+  useEffect(() => {
+    fetchRealtimeData();
+    const interval = setInterval(fetchRealtimeData, 6000); 
+    return () => clearInterval(interval);
+  }, [selectedTab]); // ◄ Added selectedTab dependency
 
   const handleRequestAction = async (requestId, action) => {
     try {
