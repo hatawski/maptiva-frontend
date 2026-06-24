@@ -6,7 +6,7 @@ import "./lockscreen.css";
 
 const PC_NAME = "PC01"; // ← change this per machine
 
-const API_BASE = "https://somehow-fighter-transportation-tomorrow.trycloudflare.com";
+const API_BASE = "https://nav-reflected-pic-blank.trycloudflare.com";
 
 export default function LockScreen({ onUnlock }) {
   const [status, setStatus] = useState("locked");

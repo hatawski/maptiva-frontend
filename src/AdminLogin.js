@@ -11,7 +11,7 @@ export default function AdminLogin({ onAdminLogin }) {  // ← add prop
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE = "https://somehow-fighter-transportation-tomorrow.trycloudflare.com";
+  const API_BASE = "https://nav-reflected-pic-blank.trycloudflare.com";
 
   const handleLogin = async (e) => {
     e.preventDefault();

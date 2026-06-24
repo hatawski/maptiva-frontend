@@ -12,7 +12,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   // ✅ Uses your verified dynamic Cloudflare URL endpoint routing tunnel
-  const API_BASE = "https://somehow-fighter-transportation-tomorrow.trycloudflare.com";
+  const API_BASE = "https://nav-reflected-pic-blank.trycloudflare.com";
 
   // Step 1: Request OTP
   const handleRequestOtp = async (e) => {
