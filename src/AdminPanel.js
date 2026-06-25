@@ -28,15 +28,20 @@ export default function AdminPanel({ onLogout }) {
     }
   };
 
-  // Helper to generate the rolling 7-day selector array
+  // Helper to generate the rolling 7-day selector array using local timezone calculations
   const getFilterDateOptions = () => {
     const options = [{ label: "All Days", value: "All" }];
-    const today = new Date();
     
     for (let i = 0; i <= 6; i++) {
       const d = new Date();
-      d.setDate(today.getDate() - i);
-      const dateString = d.toISOString().split("T")[0]; // YYYY-MM-DD
+      // Roll back day intervals safely by local calendar date units
+      d.setDate(d.getDate() - i);
+      
+      // ✅ FIX: Extract local year, month, and day manually to prevent UTC timezone shifting
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const dateString = `${year}-${month}-${day}`; // Always matches "YYYY-MM-DD" in local time
       
       let label = d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
       if (i === 0) label += " (From Today)";
@@ -160,7 +165,7 @@ export default function AdminPanel({ onLogout }) {
     attendance: "Attendance Logs"
   };
 
-  // ⏳ Client-Side Live Filter Engine
+  // ⏳ Client-Side Live Filter Engine (Crash-Proof Edition)
   const filteredAttendance = attendance.filter((log) => {
     // 1. Filter by Status
     const matchesStatus = filterStatus === "All" || log.status === filterStatus;
@@ -171,32 +176,41 @@ export default function AdminPanel({ onLogout }) {
     const normalizedTimestamp = log.time_in.replace("T", " "); 
     const parts = normalizedTimestamp.split(" ");
     const logDate = parts[0]; // Always yields "YYYY-MM-DD"
-    const logTimePart = parts[1] || ""; // Yields "HH:MM:SS" or "HH:MM:SS AM"
+    const logTimePart = parts[1] || ""; // Yields "HH:MM:SS" or empty string
     
     // 2. Filter by Date
     const matchesDate = filterDate === "All" || logDate === filterDate;
 
-    // 3. Filter by Time range (converting timestamps into minute limits)
+    // 3. Filter by Time range (safely guards against undefined or blank data)
     const timeToMinutes = (tStr) => {
-      if (!tStr) return 0;
-     // Check if string contains AM or PM
-      const isAmPm = tStr.toLowerCase().includes("am") || tStr.toLowerCase().includes("pm");
+      // 🛡️ CRASH GUARD: If the string is missing, blank, or not a string, stop immediately
+      if (!tStr || typeof tStr !== "string") return 0;
+      
+      // Check if string contains AM or PM safely
+      const lowerStr = tStr.toLowerCase();
+      const isAmPm = lowerStr.includes("am") || lowerStr.includes("pm");
       
       if (isAmPm) {
         // Handle AM/PM format (e.g., "10:15:00 AM")
-        const [time, modifier] = tStr.split(" ");
-        let [hours, minutes] = time.split(":");
-        hours = parseInt(hours, 10);
-        minutes = parseInt(minutes, 10);
+        const timeParts = tStr.split(" ");
+        if (!timeParts[0]) return 0;
+        
+        let [hours, minutes] = timeParts[0].split(":");
+        const modifier = timeParts[1] ? timeParts[1].toLowerCase() : "am";
+        
+        hours = parseInt(hours, 10) || 0;
+        minutes = parseInt(minutes, 10) || 0;
 
-        if (modifier.toLowerCase() === "pm" && hours < 12) hours += 12;
-        if (modifier.toLowerCase() === "am" && hours === 12) hours = 0;
+        if (modifier === "pm" && hours < 12) hours += 12;
+        if (modifier === "am" && hours === 12) hours = 0;
         
         return hours * 60 + minutes;
       } else {
         // Handle standard 24-hour format (e.g., "14:30:00")
-        const [h, m] = tStr.split(":");
-        return parseInt(h, 10) * 60 + parseInt(m, 10);
+        const timeParts = tStr.split(":");
+        const hours = parseInt(timeParts[0], 10) || 0;
+        const minutes = parseInt(timeParts[1], 10) || 0;
+        return hours * 60 + minutes;
       }
     };
 
@@ -371,6 +385,7 @@ export default function AdminPanel({ onLogout }) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
               <span style={{ color: "#aaa", fontSize: "14px" }}>
                 Showing {filteredAttendance.length} of {attendance.length} records
+                {attendance.length > 0 && ` (Sample DB Time Format: "${attendance[0].time_in}")`}
               </span>
               
               <div style={{ display: "flex", gap: "10px" }}>
