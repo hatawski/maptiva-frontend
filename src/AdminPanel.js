@@ -13,6 +13,13 @@ export default function AdminPanel({ onLogout }) {
   const [selectedTab, setSelectedTab] = useState("layout");
   const [showMenu, setShowMenu] = useState(false);
 
+  // 🎛️ ADVANCED TIMELINE FILTER STATES
+  const [showFilterTray, setShowFilterTray] = useState(false);
+  const [filterDate, setFilterDate] = useState("All"); 
+  const [filterTimeFrom, setFilterTimeFrom] = useState("00:00"); 
+  const [filterTimeTo, setFilterTimeTo] = useState("23:59");
+  const [filterStatus, setFilterStatus] = useState("All");
+
   const API_BASE = "https://nav-reflected-pic-blank.trycloudflare.com";
   const config = {
     headers: {
@@ -20,6 +27,27 @@ export default function AdminPanel({ onLogout }) {
       "Content-Type": "application/json"
     }
   };
+
+  // Helper to generate the rolling 7-day selector array
+  const getFilterDateOptions = () => {
+    const options = [{ label: "All Days", value: "All" }];
+    const today = new Date();
+    
+    for (let i = 0; i <= 6; i++) {
+      const d = new Date();
+      d.setDate(today.getDate() - i);
+      const dateString = d.toISOString().split("T")[0]; // YYYY-MM-DD
+      
+      let label = d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      if (i === 0) label += " (From Today)";
+      if (i === 6) label += " (From Past 6 Days - Near Deletion)";
+
+      options.push({ label, value: dateString });
+    }
+    return options;
+  };
+
+  const dateOptions = getFilterDateOptions();
 
   // ✅ Updated to cleanly include the active history datasets during re-polling passes
   const fetchRealtimeData = async () => {
@@ -73,7 +101,7 @@ export default function AdminPanel({ onLogout }) {
     fetchRealtimeData();
     const interval = setInterval(fetchRealtimeData, 6000); 
     return () => clearInterval(interval);
-  }, [selectedTab]); // ◄ Added selectedTab dependency
+  }, [selectedTab]); 
 
   const handleRequestAction = async (requestId, action) => {
     try {
@@ -89,9 +117,11 @@ export default function AdminPanel({ onLogout }) {
     } catch { alert("Failed to force checkout"); }
   };
 
+  // 📥 Context-Aware Excel Export matching current active filter selections
   const handleExportAttendance = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/admin/export-attendance`, {
+      const params = `?date=${filterDate}&time_from=${filterTimeFrom}&time_to=${filterTimeTo}&status=${filterStatus}`;
+      const res = await axios.get(`${API_BASE}/admin/export-attendance${params}`, {
         ...config,
         responseType: "blob" 
       });
@@ -99,7 +129,7 @@ export default function AdminPanel({ onLogout }) {
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `Maptiva_Attendance_${new Date().toISOString().split('T')[0]}.xlsx`);
+      link.setAttribute("download", `Filtered_Maptiva_Logs_${filterDate}.xlsx`);
 
       document.body.appendChild(link);
       link.click();
@@ -109,7 +139,7 @@ export default function AdminPanel({ onLogout }) {
 
     } catch (error) {
       console.error("Export failed:", error);
-      alert("Failed to export attendance. Make sure records exist and the server is running.");
+      alert("Failed to export attendance. Make sure records exist for this filter setup.");
     }
   };
 
@@ -130,6 +160,34 @@ export default function AdminPanel({ onLogout }) {
     attendance: "Attendance Logs"
   };
 
+  // ⏳ Client-Side Live Filter Engine
+  const filteredAttendance = attendance.filter((log) => {
+    // 1. Filter by Status
+    const matchesStatus = filterStatus === "All" || log.status === filterStatus;
+
+    if (!log.time_in) return false;
+    
+    // Split "YYYY-MM-DD HH:MM:SS" strings
+    const [logDate, logTimePart] = log.time_in.split(" ");
+    
+    // 2. Filter by Date
+    const matchesDate = filterDate === "All" || logDate === filterDate;
+
+    // 3. Filter by Time range (converting timestamps into minute limits)
+    const timeToMinutes = (tStr) => {
+      if (!tStr) return 0;
+      const [h, m] = tStr.split(":");
+      return parseInt(h, 10) * 60 + parseInt(m, 10);
+    };
+
+    const logMinutes = timeToMinutes(logTimePart);
+    const fromMinutes = timeToMinutes(filterTimeFrom);
+    const toMinutes = timeToMinutes(filterTimeTo);
+    const matchesTime = logMinutes >= fromMinutes && logMinutes <= toMinutes;
+
+    return matchesStatus && matchesDate && matchesTime;
+  });
+
   if (loading) {
     return <div className="admin-loading">Loading admin panel...</div>;
   }
@@ -141,11 +199,6 @@ export default function AdminPanel({ onLogout }) {
       <div className="admin-top-bar">
         <h1 className="admin-title">MAPTIVA</h1>
         <div className="admin-top-right">
-          {selectedTab === "attendance" && (
-            <button className="export-btn" onClick={handleExportAttendance}>
-              Export Excel
-            </button>
-          )}
           <div
             className="hamburger"
             onClick={(e) => {
@@ -290,11 +343,109 @@ export default function AdminPanel({ onLogout }) {
           </div>
         )}
 
-        {/* ✅ WRAPPED IN SCROLL WRAPPER */}
+        {/* ✅ UPDATED ATTENDANCE VIEW WITH EXPANDABLE TRAY */}
         {selectedTab === "attendance" && (
           <div className="admin-scroll-wrapper">
-            {attendance.length === 0 ? (
-              <p className="empty-msg">No attendance records yet.</p>
+            
+            {/* ACTION BANNER HUB */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
+              <span style={{ color: "#aaa", fontSize: "14px" }}>
+                Showing {filteredAttendance.length} of {attendance.length} records
+              </span>
+              
+              <div style={{ display: "flex", gap: "10px" }}>
+                <button 
+                  className="export-btn" 
+                  onClick={handleExportAttendance}
+                  style={{ background: "#28a745", border: "none" }}
+                >
+                  📥 Export Current View
+                </button>
+
+                <button 
+                  onClick={() => setShowFilterTray(!showFilterTray)}
+                  style={{
+                    background: showFilterTray ? "#007bff" : "#222",
+                    color: "#fff",
+                    border: "1px solid #444",
+                    padding: "8px 12px",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontSize: "14px"
+                  }}
+                >
+                  🔍 {showFilterTray ? "Hide Filters" : "Filter Logs"}
+                </button>
+              </div>
+            </div>
+
+            {/* EXPANDABLE FILTER CONTAINER TRAY */}
+            {showFilterTray && (
+              <div className="filter-tray" style={{ 
+                background: "#181818", 
+                border: "1px solid #333", 
+                borderRadius: "6px", 
+                padding: "15px", 
+                marginBottom: "20px",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: "15px"
+              }}>
+                {/* 1. Date Option Element */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                  <label style={{ color: "#aaa", fontSize: "12px" }}>Date Frame</label>
+                  <select 
+                    value={filterDate} 
+                    onChange={(e) => setFilterDate(e.target.value)}
+                    style={{ padding: "8px", borderRadius: "4px", background: "#252525", color: "#fff", border: "1px solid #444" }}
+                  >
+                    {dateOptions.map(opt => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 2. Dual-Input Custom Time Bounds */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                  <label style={{ color: "#aaa", fontSize: "12px" }}>Time Interval Window</label>
+                  <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                    <input 
+                      type="time" 
+                      value={filterTimeFrom} 
+                      onChange={(e) => setFilterTimeFrom(e.target.value || "00:00")}
+                      style={{ padding: "7px", borderRadius: "4px", background: "#252525", color: "#fff", border: "1px solid #444", width: "100%" }}
+                    />
+                    <span style={{ color: "#666" }}>to</span>
+                    <input 
+                      type="time" 
+                      value={filterTimeTo} 
+                      onChange={(e) => setFilterTimeTo(e.target.value || "23:59")}
+                      style={{ padding: "7px", borderRadius: "4px", background: "#252525", color: "#fff", border: "1px solid #444", width: "100%" }}
+                    />
+                  </div>
+                </div>
+
+                {/* 3. Session Checkout Filters */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                  <label style={{ color: "#aaa", fontSize: "12px" }}>Terminal Status</label>
+                  <select 
+                    value={filterStatus} 
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                    style={{ padding: "8px", borderRadius: "4px", background: "#252525", color: "#fff", border: "1px solid #444" }}
+                  >
+                    <option value="All">All Statuses</option>
+                    <option value="checked_out">Checked Out</option>
+                    <option value="force_checked_out">Force Checked Out</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* TABULAR RESULT RENDERING CONTAINER */}
+            {filteredAttendance.length === 0 ? (
+              <p className="empty-msg" style={{ textAlign: "center", padding: "40px 0" }}>
+                No attendance records match your timeline criteria.
+              </p>
             ) : (
               <table className="attendance-table">
                 <thead>
@@ -308,7 +459,7 @@ export default function AdminPanel({ onLogout }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {attendance.map((r, i) => (
+                  {filteredAttendance.map((r, i) => (
                     <tr key={i}>
                       <td>{r.name}</td>
                       <td>{r.student_id}</td>
