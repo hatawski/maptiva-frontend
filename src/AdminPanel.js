@@ -167,8 +167,11 @@ export default function AdminPanel({ onLogout }) {
 
     if (!log.time_in) return false;
     
-    // Split "YYYY-MM-DD HH:MM:SS" strings
-    const [logDate, logTimePart] = log.time_in.split(" ");
+    // Normalize string: convert "2026-06-25T14:30:00" or custom shapes safely into parts
+    const normalizedTimestamp = log.time_in.replace("T", " "); 
+    const parts = normalizedTimestamp.split(" ");
+    const logDate = parts[0]; // Always yields "YYYY-MM-DD"
+    const logTimePart = parts[1] || ""; // Yields "HH:MM:SS" or "HH:MM:SS AM"
     
     // 2. Filter by Date
     const matchesDate = filterDate === "All" || logDate === filterDate;
@@ -176,8 +179,25 @@ export default function AdminPanel({ onLogout }) {
     // 3. Filter by Time range (converting timestamps into minute limits)
     const timeToMinutes = (tStr) => {
       if (!tStr) return 0;
-      const [h, m] = tStr.split(":");
-      return parseInt(h, 10) * 60 + parseInt(m, 10);
+     // Check if string contains AM or PM
+      const isAmPm = tStr.toLowerCase().includes("am") || tStr.toLowerCase().includes("pm");
+      
+      if (isAmPm) {
+        // Handle AM/PM format (e.g., "10:15:00 AM")
+        const [time, modifier] = tStr.split(" ");
+        let [hours, minutes] = time.split(":");
+        hours = parseInt(hours, 10);
+        minutes = parseInt(minutes, 10);
+
+        if (modifier.toLowerCase() === "pm" && hours < 12) hours += 12;
+        if (modifier.toLowerCase() === "am" && hours === 12) hours = 0;
+        
+        return hours * 60 + minutes;
+      } else {
+        // Handle standard 24-hour format (e.g., "14:30:00")
+        const [h, m] = tStr.split(":");
+        return parseInt(h, 10) * 60 + parseInt(m, 10);
+      }
     };
 
     const logMinutes = timeToMinutes(logTimePart);
